@@ -127,7 +127,7 @@ function Dashboard({ user }) {
           <div style={card}>
             <Section title="Payables" color="#dc2626">
               {dashboard.youOwe.length === 0
-                ? <p>No payables 🎉</p>
+                ? <p>No payables </p>
                 : dashboard.youOwe.map(i => (
                   <Item key={i._id} bg="#fef2f2" border="#dc2626">
                     You owe <b>{i.name}</b> ₹{i.amount}
@@ -244,7 +244,7 @@ function Dashboard({ user }) {
   );
 }
 
-/* ---------- STYLES ---------- */
+/* Doing styling from here  */
 
 const card = {
   background: "#ffffff",

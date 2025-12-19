@@ -183,7 +183,7 @@ function GroupDetails({ group, onBack }) {
   );
 }
 
-/* ---------- STYLES ---------- */
+/* Doing styling from here  */
 
 const grid = {
   display: "grid",

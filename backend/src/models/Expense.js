@@ -30,10 +30,10 @@ const expenseSchema = new mongoose.Schema(
       required: true,
     },
 
-    // 🔥 UPDATED FIELD
+   
     splits: {
       type: Map,
-      of: Number, // userId -> amount OR percentage
+      of: Number, 
     },
   },
   { timestamps: true }

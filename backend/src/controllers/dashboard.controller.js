@@ -7,7 +7,7 @@ const getDashboard = async (req, res) => {
     const { userId } = req.params;
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
-    // 1️⃣ Money I OWE (outgoing)
+    //  Money that i owe (Payables)
     const youOweRaw = await Balance.aggregate([
       { $match: { from: userObjectId } },
       {
@@ -18,7 +18,7 @@ const getDashboard = async (req, res) => {
       },
     ]);
 
-    // 2️⃣ Money OWED TO ME (incoming)
+    //  Money that is owed to me(recievables)
     const owedToYouRaw = await Balance.aggregate([
       { $match: { to: userObjectId } },
       {
@@ -29,13 +29,13 @@ const getDashboard = async (req, res) => {
       },
     ]);
 
-    // 🔹 Collect all involved user IDs
+    // Collecting all the involved user IDs
     const userIds = [
       ...youOweRaw.map(item => item._id),
       ...owedToYouRaw.map(item => item._id),
     ];
 
-    // 🔹 Fetch user names
+    // Fetching the user names
     const users = await User.find({ _id: { $in: userIds } });
 
     const userMap = {};
@@ -43,7 +43,7 @@ const getDashboard = async (req, res) => {
       userMap[u._id.toString()] = u.name;
     });
 
-    // 🔹 Attach names
+    //  Attach names
     const youOwe = youOweRaw.map(item => ({
       _id: item._id,
       name: userMap[item._id.toString()] || "Unknown",
@@ -56,7 +56,7 @@ const getDashboard = async (req, res) => {
       amount: item.amount,
     }));
 
-    // Totals
+    // Now Total
     const totalYouOwe = youOwe.reduce((sum, x) => sum + x.amount, 0);
     const totalOwedToYou = owedToYou.reduce((sum, x) => sum + x.amount, 0);
 

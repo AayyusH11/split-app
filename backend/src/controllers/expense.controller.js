@@ -3,10 +3,10 @@ const { applySplit } = require("../services/split.service");
 
 const addExpense = async (req, res) => {
   try {
-    // 🔥 DEBUG LOG
-    console.log("========== ADD EXPENSE REQUEST ==========");
+    // this have written to debug the issue 
+    console.log("Add Expense Request");
     console.log("BODY:", JSON.stringify(req.body, null, 2));
-    console.log("========================================");
+    
 
     const {
       description,
@@ -18,7 +18,7 @@ const addExpense = async (req, res) => {
       splits,
     } = req.body;
 
-    // ✅ BASIC VALIDATIONS
+    
     if (!description || !amount || !paidBy || !groupId || !splitType) {
       throw new Error("Missing required fields");
     }
@@ -27,8 +27,8 @@ const addExpense = async (req, res) => {
       throw new Error("Participants required");
     }
 
-    // 🔥 THIS IS THE FIX
-    // Convert splits ARRAY → MAP (userId -> amount)
+    // here i was getting the issue finally spotted it 
+    
     let splitsMap = {};
 
     if (splitType !== "EQUAL") {
@@ -50,7 +50,7 @@ const addExpense = async (req, res) => {
 
     console.log("FINAL SPLITS MAP:", splitsMap);
 
-    // ✅ CREATE EXPENSE (Mongo expects MAP, not array)
+    
     const expense = await Expense.create({
       description,
       amount,
@@ -60,7 +60,7 @@ const addExpense = async (req, res) => {
       splits: splitType === "EQUAL" ? {} : splitsMap,
     });
 
-    // ✅ APPLY SPLIT LOGIC
+    // here its the split logic 
     await applySplit({
       groupId,
       paidBy,
@@ -75,7 +75,7 @@ const addExpense = async (req, res) => {
       expense,
     });
   } catch (error) {
-    console.error("❌ ADD EXPENSE ERROR:", error.message);
+    console.error("ADD EXPENSE ERROR:", error.message);
     res.status(400).json({ error: error.message });
   }
 };

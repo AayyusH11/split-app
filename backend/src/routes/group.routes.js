@@ -10,8 +10,8 @@ const {
 const router = express.Router();
 
 router.post("/", createGroup);
-router.get("/", getGroupsForUser);      // /groups?userId=...
-router.get("/:groupId", getGroupById);  // /groups/:groupId
+router.get("/", getGroupsForUser);      
+router.get("/:groupId", getGroupById); 
 router.post("/:groupId/add-member", addMemberByEmail);
 router.post("/:groupId/settle", settleGroup);
 router.post("/:groupId/settle", settleGroup);

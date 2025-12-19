@@ -8,7 +8,7 @@ const applySplit = async ({
   participants,
   splits = {},
 }) => {
-  // ✅ EQUAL SPLIT
+  // case1: equal split 
   if (splitType === "EQUAL") {
     const share = amount / participants.length;
 
@@ -24,7 +24,7 @@ const applySplit = async ({
     }
   }
 
-  // ✅ EXACT SPLIT (splits is a MAP now)
+  // case 2: exact split
   if (splitType === "EXACT") {
     const total = Object.values(splits).reduce(
       (sum, val) => sum + val,
@@ -47,14 +47,14 @@ const applySplit = async ({
     }
   }
 
-  // ✅ PERCENT SPLIT (amounts already calculated in frontend)
+  // case 2: percentage split
   if (splitType === "PERCENT") {
     const total = Object.values(splits).reduce(
       (sum, val) => sum + val,
       0
     );
 
-    // small rounding tolerance
+    
     if (Math.round(total) !== Math.round(amount)) {
       throw new Error("Percentage split must sum to total amount");
     }
